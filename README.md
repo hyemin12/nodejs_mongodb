@@ -7,6 +7,7 @@ express js : 웹사이트나 어플리케이션을 쉽게 만들 수 있게 도�
 [회원가입기능만들기](#회원가입-기능-만들기)
 [환경변수로 비밀 정보 보호](#비밀-정보-보호)
 [Bcrypt\_비밀번호 암호화하기](#bcrypt로-비밀번호-암호화하기)
+[로그인기능만들기](#로그인-기능-만들기)
 
 ## 1. npm package 만들기
 
@@ -213,10 +214,159 @@ userSchema.pre("save", function (next) {
         next();
       });
     });
+  } else {
+    next();
   }
 });
 ```
 
 > 오류가 나서 회원가입이 안되었는데, 화살표 함수를 function으로 바꾸니 실행됨.
 
-<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/bcrypt.JPG?raw=true />
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/bcrypt.JPG?raw=true" />
+
+## #로그인 기능 만들기
+
+1. 데이터 베이스에서 요청한 이메일 찾기 User.findOne()
+2. 데이터 베이스에 요청한 E-mail이 있다면 비밀번호가 같은지 확인
+
+- Bcrypt를 이용하여 plain password와 암호화된 비밀번호가 같은지 확인
+
+3. 비밀번호까지 같다면 token 생성 (토큰 생성을 위해 JSONWEBTOKEN 라이브러리 다운)
+
+- npm i jsonwebtoken --save
+- https://www.npmjs.com/package/jsonwebtoken
+
+---
+
+1. 데이터 베이스에서 요청한 이메일 찾기 User.findOne()
+
+```js
+// index.js
+
+// login Route
+app.post("/login", (req, res) => {
+  // 요청된 이메일을 데이터베이스에 있는지 찾는다.
+  User.findOne({ email: req.body.email }, (err, userInfo) => {
+    if (!userInfo) {
+      return res.json({
+        loginSuccess: false,
+        messgae:
+          "올바른 이메일 주소가 아니거나, 가입되어있지 않은 이메일입니다.",
+      });
+    }
+
+    // 요청된 이메일이 데이터베이스에 있다면 비밀번호가 올바른 비밀번호인지 확인
+
+    // 비밀번호까지 맞다면 토큰을 생성하기
+});
+```
+
+2. 데이터 베이스에 요청한 E-mail이 있다면 비밀번호가 같은지 확인
+
+```js
+// index.js
+
+// login Route
+app.post("/login", (req, res) => {
+  // 요청된 이메일을 데이터베이스에 있는지 찾는다.
+  User.findOne({ email: req.body.email }, (err, userInfo) => {
+    if (!userInfo) {
+      return res.json({
+        loginSuccess: false,
+        messgae:
+          "올바른 이메일 주소가 아니거나, 가입되어있지 않은 이메일입니다.",
+      });
+    }
+    // *** 이부분 ***
+    // 요청된 이메일이 데이터베이스에 있다면 비밀번호가 올바른 비밀번호인지 확인
+    user.comparePassWord(req.body.password, (err, isMatch) => {
+      if (!isMatch) {
+        return res.json({
+          loginSuccess: false,
+          message: "비밀번호가 틀렸습니다.",
+        });
+      }
+      // 비밀번호까지 맞다면 토큰을 생성하기
+    });
+  });
+});
+```
+
+- User.js 파일 가서 method 생성하기 (comparePassWord)
+
+```js
+// models/User.js
+
+// 비밀번호 일치 여부 method
+userSchema.methods.comparePassword = function (plainPassword, cb) {
+  // plain Password 와 암호화된 Password 비교
+  bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
+```
+
+3. 비밀번호까지 같다면 token 생성 (토큰 생성을 위해 JSONWEBTOKEN 라이브러리 다운)
+
+```js
+// index.js
+
+// login Route
+app.post("/login", (req, res) => {
+  // 요청된 이메일을 데이터베이스에 있는지 찾는다.
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (!user) {
+      return res.json({
+        loginSuccess: false,
+        message:
+          "올바른 이메일 주소가 아니거나, 가입되어있지 않은 이메일입니다.",
+      });
+    }
+
+    // 요청된 이메일이 데이터베이스에 있다면 비밀번호가 올바른 비밀번호인지 확인
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch)
+        return res.json({
+          loginSuccess: false,
+          message: "비밀번호가 틀렸습니다.",
+        });
+
+      // *** 이부분 ***
+      // 비밀번호까지 맞다면 토큰을 생성하기
+      user.generateToken((err, user) => {
+        if (err) return res.status(400).send(err);
+
+        // 토큰을 저장한다. ("쿠키" or 로컬스토리지 등등)
+        res
+          .cookie("x_auth", user.token)
+          .status(200)
+          .json({ loginSuccess: true, userId: user._id });
+      });
+    });
+  });
+});
+```
+
+- User.js 파일에 generateToken method 생성
+
+```js
+// models/User.js
+
+/** token 생성 method */
+userSchema.methods.generateToken = function (cb) {
+  var user = this;
+
+  // jsonwebtoken을 이용해서 token을 생성하기
+  var token = jwt.sign(user._id.toHexString(), "secretToken");
+
+  // userSchema.token에 생성된 token 할당
+  user.token = token;
+  user.save(function (err, user) {
+    if (err) return cb(err);
+    cb(null, user);
+  });
+};
+```
+
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/login.JPG?raw=true" />
