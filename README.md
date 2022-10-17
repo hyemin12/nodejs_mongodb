@@ -65,3 +65,14 @@ const userSchema = mongoose.Schema({
   },
 });
 ```
+
+## 회원가입 기능 만들기
+
+- Body-parser<br>
+  Body 데이터를 분석(parse)해서 req.body로 출력해주는 것
+
+```
+npm i body-parser --save
+```
+
+- 만들어진 클라이언트가 없으면 postman을 이용
