@@ -75,4 +75,77 @@ const userSchema = mongoose.Schema({
 npm i body-parser --save
 ```
 
+index.js에서 bodyParser를 사용하기 위해서는 아래 코드를 추가해야함
+
+```js
+// index.js
+
+const bodyParser = require("body-parser");
+
+// application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// application/json
+app.use(bodyParser.json());
+```
+
 - 만들어진 클라이언트가 없으면 postman을 이용
+
+```js
+// index.js
+
+app.post("/register", (req, res) => {
+  // 회원가입할 때 필요한 정보들을 client에서 가져오면
+  // 그것들을 데이터베이스에 넣어준다.
+  const user = new User(req.body);
+
+  // 몽고DB method
+  user.save((err, userInfo) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({ success: true });
+  });
+});
+```
+
+- 성공한다면 success: true가 반환됨
+  <img src="./markdownImg/register.jpg" />
+
+## 비밀 정보 보호
+
+- 환경변수 process.env.NODE_ENV
+- local 환경 : development
+- deploy 환경: production
+
+| config 폴더<br>
+-| key.js <br>
+-| prod.js <br>
+-| dev.js <br>
+
+```js
+// key.js
+
+if (process.env.NODE_ENV === "production") {
+  // local
+  module.exports = require("./prod");
+} else {
+  // deploy
+  module.exports = require("./dev");
+}
+```
+
+```js
+// dev.js
+
+module.exports = {
+  mongoURI:
+    "mongodb+srv://hyemiiin:<비밀번호>@cluster0.wifofb1.mongodb.net/?retryWrites=true&w=majority",
+};
+```
+
+```js
+// prod.js
+
+module.exports = {
+  mongoURI: process.env.MONGO_URI,
+};
+```

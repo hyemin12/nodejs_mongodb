@@ -3,6 +3,8 @@ const app = express();
 const port = 5000;
 const bodyParser = require("body-parser");
 
+const config = require("./config/key");
+
 const { User } = require("./models/User");
 
 // application/x-www-form-urlencoded
@@ -13,9 +15,7 @@ app.use(bodyParser.json());
 
 const mongoose = require("mongoose");
 mongoose
-  .connect(
-    "mongodb+srv://hyemiiin:1234567aa@cluster0.wifofb1.mongodb.net/?retryWrites=true&w=majority"
-  )
+  .connect(config.mongoURI)
   .then(() => console.log("몽고DB 연결!"))
   .catch((err) => console.log(err));
 
