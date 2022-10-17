@@ -8,6 +8,7 @@ express js : 웹사이트나 어플리케이션을 쉽게 만들 수 있게 도�
 [환경변수로 비밀 정보 보호](#비밀-정보-보호)
 [Bcrypt\_비밀번호 암호화하기](#bcrypt로-비밀번호-암호화하기)
 [로그인기능만들기](#로그인-기능-만들기)
+[Auth 기능만들기](#auth기능만들기)
 
 ## 1. npm package 만들기
 
@@ -370,3 +371,80 @@ userSchema.methods.generateToken = function (cb) {
 ```
 
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/login.JPG?raw=true" />
+
+## #Auth기능만들기
+
+#### Auth 기능 사용하는 이유
+
+1. 페이지 이동때마다 로그인 되어있는지 안되어있는지, 관리자 유저인지 등을 확인
+2. 글을 쓸 때나 지울 때 권한이 있는지 확인
+
+클라이언트 -> 서버에 쿠키에 담겨있는 token을 전달 <br>
+-> 서버에 쿠키를 전달 할 때 token이 디코드 되면서 user ID 를 전달함
+
+#### Auth 기능 만들기
+
+1. cookie에서 저장된 token을 server에서 가져와서 복호화한다.
+2. 복호화를 하면 user ID가 나오는데 그 user id를 이용해서 데이터베이스 User Collection에서
+3.
+
+```js
+// index.js
+
+// Auth Route
+app.get("/api/users/auth", auth, (req, res) => {
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    role: req.user.role,
+    image: req.user.image,
+  });
+});
+```
+
+```js
+// middleware/Auth.js
+
+const { User } = require("../models/User");
+
+let auth = (req, res, next) => {
+  // 인증 처리를 하는 곳
+  // 클라이언트 쿠키에서 토큰을 가져온다.
+  let token = req.cookies.x_auth;
+
+  // 토큰을 복호화 한 후 유저를 찾는다.
+  User.findByToken(token, (err, user) => {
+    if (err) throw err;
+    if (!user) return res.json({ isAuth: false, error: true });
+
+    req.token = token;
+    req.user = user;
+
+    // middleware에서 다음 단계로 넘어가도록
+    next();
+  });
+};
+
+module.exports = { auth };
+```
+
+## #로그아웃 기능
+
+1. 로그아웃하려는 유저를 찾아서 token 지우기
+
+```js
+// index.js
+
+// Logout Route
+app.get("/api/users/logout", auth, (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({
+      success: true,
+    });
+  });
+});
+```
