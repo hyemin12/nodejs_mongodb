@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 function RegisterPage() {
-  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onChange = (e) => {
-    const { value } = e.target;
+    const { value, name } = e.target;
     if (name === "text") {
-      setName(value);
+      setUserName(value);
     } else if (name === "email") {
       setEmail(value);
     } else if (name === "password") {
@@ -21,7 +21,7 @@ function RegisterPage() {
     let body = {
       email,
       password,
-      name,
+      userName,
     };
   };
 
@@ -29,7 +29,7 @@ function RegisterPage() {
     <div>
       <form onSubmit={onSubmit}>
         <lable>이름</lable>
-        <input type="text" value={name} onChange={onChange} />
+        <input type="text" value={userName} onChange={onChange} />
         <lable>이메일</lable>
         <input type="email" value={email} onChange={onChange} />
 

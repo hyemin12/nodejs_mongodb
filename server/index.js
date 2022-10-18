@@ -2,11 +2,14 @@ const express = require("express");
 const app = express();
 const port = 5000;
 const bodyParser = require("body-parser");
+var cors = require("cors");
 const cookieParser = require("cookie-parser");
 const config = require("./config/key");
 const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
 
+app.use(cors());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

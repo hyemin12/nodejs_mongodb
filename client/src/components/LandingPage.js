@@ -1,5 +1,5 @@
 function LandingPage() {
-  return <div>LandingPage</div>;
+  return <div>시작 페이지</div>;
 }
 
 export default LandingPage;
