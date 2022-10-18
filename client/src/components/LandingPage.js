@@ -1,4 +1,5 @@
 import Header from "./Header";
+import auth from "../hoc/auth";
 
 function LandingPage() {
   return (
@@ -8,4 +9,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default auth(LandingPage, null);

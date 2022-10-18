@@ -48,3 +48,73 @@ module.exports = function (app) {
 ```
 npm i concurrently --save
 ```
+
+## #인증 체크
+
+- 들어갈 수 있는 페이지들에 대한 통제 HOC
+
+```
+const EnhancedComponent = higherOrderComponent(WrappedComponent)
+```
+
+> 컴포넌트를 받은 다음에 새로운 컴포넌트를 리턴
+
+HOC(Auth) -> 백엔드에 request 보내기 -> 백엔드에서 상태를 보내줌 -> HOC에서 구분(Auth)
+
+```js
+export default function (SpecificComponent, option, adminRoute = null) {
+  function AuthenticationCheck(props) {
+    return <SpecificComponent />;
+  }
+
+  return AuthenticationCheck;
+}
+```
+
+#### SpecificComponent
+
+- 승인 받아야하는 컴포넌트
+
+#### option
+
+- null => 아무나 출입이 가능한 페이지
+- true => 로그인한 유저만 출입이 가능한 페이지
+- false => 로그인한 유저는 출입 불가능한 페이지
+
+#### adminRoute
+
+- 관리자 경로
+
+```js
+// hoc/auth.js
+export default function (SpecificComponent, option, adminRoute = null) {
+  function AuthenticationCheck(props) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      dispatch(authUser()).then((response) => {
+        if (!response.payload.isAuth) {
+          // 로그인 하지 않은 상태
+          if (option) {
+            navigate("/login");
+          }
+        } else {
+          // 로그인 한 상태
+          if (adminRoute && !response.payload.isAdmin) {
+            navigate("/");
+          } else {
+            if (option === false) {
+              navigate("/");
+            }
+          }
+        }
+      });
+    }, []);
+
+    return <SpecificComponent />;
+  }
+
+  return AuthenticationCheck;
+}
+```
