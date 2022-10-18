@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../_actions/userAction";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -27,26 +27,39 @@ function LoginPage() {
       if (response.payload.loginSuccess) {
         navigate("/");
       } else {
-        alert("Error˝");
+        alert("Error");
       }
     });
   };
 
   return (
-    <div className="form_container">
-      <form className="form" onSubmit={onSubmit}>
-        <label>이메일</label>
-        <input name="email" type="email" value={email} onChange={onChange} />
+    <div className="container">
+      <div className="form_container">
+        <div className="form_wrapper">
+          <h2 className="form_title">로그인</h2>
+          <form className="form" onSubmit={onSubmit}>
+            <label>이메일</label>
+            <input
+              name="email"
+              type="email"
+              value={email}
+              onChange={onChange}
+            />
 
-        <label>비밀번호</label>
-        <input
-          name="password"
-          type="password"
-          value={password}
-          onChange={onChange}
-        />
-        <button type="submit">로그인</button>
-      </form>
+            <label>비밀번호</label>
+            <input
+              name="password"
+              type="password"
+              value={password}
+              onChange={onChange}
+            />
+            <button type="submit">로그인</button>
+          </form>
+          <Link to="/register" className="btn_link">
+            회원가입
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

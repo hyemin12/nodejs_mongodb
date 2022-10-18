@@ -1,5 +1,11 @@
+import Header from "./Header";
+
 function LandingPage() {
-  return <div>시작 페이지</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 }
 
 export default LandingPage;
