@@ -23,7 +23,7 @@ express js : 웹사이트나 어플리케이션을 쉽게 만들 수 있게 도�
 ### 회원가입 페이지에서 회원가입하기
 
 ＊회원가입 폼
-<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/web-register.PNG?raw=true" alt="회원가입폼" />
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/web-register.png?raw=tru"e alt="회원가입폼" />
 
 ＊회원가입 성공
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/register-success.JPG?raw=true" alt="회원가입성공" />
@@ -39,7 +39,7 @@ express js : 웹사이트나 어플리케이션을 쉽게 만들 수 있게 도�
 ### 로그인/로그아웃
 
 ＊로그인폼
-<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/web-login.PNG?raw=true" alt="로그인폼" />
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/web-login.png?raw=true" alt="로그인폼" />
 
 ＊로그인 성공
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/login-sucess.JPG?raw=true" alt="로그인성공" />
