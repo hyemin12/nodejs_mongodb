@@ -1,14 +1,58 @@
 node js : 자바스크립트를 브라우저가 아닌 서버 사이드에서도 사용할 수 있는 언어
 express js : 웹사이트나 어플리케이션을 쉽게 만들 수 있게 도와주는 도구(프레임워크)
 
-목차
-[프로젝트 시작하기](#1-npm-package-만들기)
-[몽고DB 연결 및 모델 생성](#3-mongodb-연결하기)
-[회원가입기능만들기](#회원가입-기능-만들기)
-[환경변수로 비밀 정보 보호](#비밀-정보-보호)
-[Bcrypt\_비밀번호 암호화하기](#bcrypt로-비밀번호-암호화하기)
-[로그인기능만들기](#로그인-기능-만들기)
-[Auth 기능만들기](#auth기능만들기)
+목차  
+[공부내용정리](#공부내용정리)
+
+- [프로젝트 시작하기](#1-npm-package-만들기)
+- [몽고DB 연결 및 모델 생성](#3-mongodb-연결하기)
+- [회원가입기능만들기](#회원가입-기능-만들기)
+- [환경변수로 비밀 정보 보호](#비밀-정보-보호)
+- [Bcrypt\_비밀번호 암호화하기](#bcrypt로-비밀번호-암호화하기)
+- [로그인기능만들기](#로그인-기능-만들기)
+- [Auth 기능만들기](#auth기능만들기)
+
+# #프로젝트 내용
+
+### 기능
+
+- 회원가입 페이지에서 회원가입하기
+- 로그인페이지에서 로그인하기
+- 메인화면에서 로그아웃하기
+
+### 회원가입 페이지에서 회원가입하기
+
+＊회원가입 폼
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/web-register.JPG?raw=true" alt="회원가입폼" />
+
+＊회원가입 성공
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/register-success.JPG?raw=true" alt="회원가입성공" />
+
+＊회원가입 실패
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/register-fail.JPG?raw=true" alt="회원가입실패" />
+
+＊회원가입 실패 (비밀번호가 일치하지 않을 경우)
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/wrongpassword.JPG?raw=true" alt="회원가입실패" />
+
+---
+
+### 로그인/로그아웃
+
+＊로그인폼
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/web-login.JPG?raw=true" alt="로그인폼" />
+
+＊로그인 성공
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/login-success.JPG?raw=true" alt="로그인성공" />
+＊로그인 성공했을 때 mongoDB (token 발급)
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/token1.JPG?raw=true" alt="로그인 성공했을 때 mongoDB" />
+
+＊로그아웃 성공  
+로그아웃 성공 시 로그인 화면으로 이동 & token값이 지워짐
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/token2.JPG?raw=true" alt="로그아웃 성공" />
+
+---
+
+# #공부내용정리
 
 ## 1. npm package 만들기
 

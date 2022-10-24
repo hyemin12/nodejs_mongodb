@@ -13,6 +13,7 @@ export function loginUser(userData) {
 }
 
 export function registerUser(userData) {
+  console.log(userData);
   const req = axios
     .post("/api/users/register", userData)
     .then((response) => response.data);

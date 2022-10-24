@@ -39,6 +39,7 @@ function RegisterPage() {
         alert("회원가입 성공!");
         navigate("/login");
       } else {
+        console.log(res);
         alert("회원가입을 실패했습니다.");
       }
     });
