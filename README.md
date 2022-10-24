@@ -22,31 +22,40 @@ express js : 웹사이트나 어플리케이션을 쉽게 만들 수 있게 도�
 
 ### 회원가입 페이지에서 회원가입하기
 
-＊회원가입 폼
-<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/web-register.png?raw=tru"e alt="회원가입폼" />
+#### <b>＊회원가입 폼</b>
 
-＊회원가입 성공
+<img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/web-register.png?raw=true" alt="회원가입폼" />
+
+#### <b>＊회원가입 성공</b>
+
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/register-success.JPG?raw=true" alt="회원가입성공" />
 
-＊회원가입 실패
+#### <b>＊회원가입 실패</b>
+
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/register-fail.JPG?raw=true" alt="회원가입실패" />
 
-＊회원가입 실패 (비밀번호가 일치하지 않을 경우)
+#### <b>＊회원가입 실패 (비밀번호가 일치하지 않을 경우)</b>
+
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/wrongpassword.JPG?raw=true" alt="회원가입실패" />
 
 ---
 
 ### 로그인/로그아웃
 
-＊로그인폼
+#### <b>＊로그인폼</b>
+
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/web-login.png?raw=true" alt="로그인폼" />
 
-＊로그인 성공
+#### <b>＊로그인 성공</b>
+
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/login-sucess.JPG?raw=true" alt="로그인성공" />
-＊로그인 성공했을 때 mongoDB (token 발급)
+
+#### <b>＊로그인 성공했을 때 mongoDB (token 발급)</b>
+
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/token1.JPG?raw=true" alt="로그인 성공했을 때 mongoDB" />
 
-＊로그아웃 성공  
+#### <b>＊로그아웃 성공 </b>
+
 로그아웃 성공 시 로그인 화면으로 이동 & token값이 지워짐
 <img src="https://github.com/hyemin12/nodejs_mongodb/blob/master/markdownImg/token2.JPG?raw=true" alt="로그아웃 성공" />
 
